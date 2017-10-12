@@ -13,7 +13,7 @@ def extract_kernel_version(deb_package):
     # Convert to basename in case the filter call was not prefixed with '|basename'.
     deb_package = os.path.basename(deb_package)
     try:
-        results = re.findall(r'^linux-image-([\d.]+-grsec)', deb_package)[0]
+        results = re.findall(r'^.*-image-([\d.]+-grsec).*$', deb_package)[0]
     except IndexError:
         msg = ("Could not determine desired kernel version in '{}', make sure it matches "
               "the regular expression '^linux-image-[\d.]+-grsec'").format(deb_package)

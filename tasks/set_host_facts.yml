@@ -32,7 +32,7 @@
 - name: Inspect deb packages for kernel image package
   set_fact:
     grsecurity_install_kernel_image_package: "{{ item }}"
-  when: (item|basename).startswith('linux-image')
+  when: "'image' in item|basename"
   with_items: "{{ grsecurity_install_combined_deb_packages }}"
 
 - name: Set desired kernel version as host fact.
