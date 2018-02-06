@@ -10,13 +10,16 @@ def extract_kernel_version(deb_package):
     the kernel version it would install, e.g. "4.4.4-grsec".
     """
 
-    # Convert to basename in case the filter call was not prefixed with '|basename'.
+    # Convert to basename in case the filter
+    # call was not prefixed with '|basename'.
     deb_package = os.path.basename(deb_package)
     try:
-        results = re.findall(r'^.*-image-([\d.]+-grsec).*$', deb_package)[0]
+        reg_pattern = "^.*-image-([\d.]+-grsec[A-Za-z0-9\-\.]*)_.*$"
+        results = re.findall(r'{}'.format(reg_pattern), deb_package)[0]
     except IndexError:
-        msg = ("Could not determine desired kernel version in '{}', make sure it matches "
-              "the regular expression '^linux-image-[\d.]+-grsec'").format(deb_package)
+        msg = ("Could not determine desired kernel version in '{}', make sure"
+               " it matches the regular expression '{}'"
+               ).format(deb_package, reg_pattern)
         raise errors.AnsibleFilterError(msg)
 
     return results

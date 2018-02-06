@@ -8,7 +8,7 @@
   #   Debian GNU/Linux, with Linux 3.14.54-grsec
   # Example string NOT to match:
   #   Debian GNU/Linux, with Linux 3.14.54-grsec (recovery mode)
-  when: "{{ item.name | match('.*'+grsecurity_install_desired_kernel_version+'$') }}"
+  when: item.name|match('.*'+grsecurity_install_desired_kernel_version+'$')
 
 - name: Update GRUB timeout for easier console recovery and debugging
   become: yes
