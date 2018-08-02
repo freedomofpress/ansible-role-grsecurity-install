@@ -1,4 +1,7 @@
 ---
+- name: Display all GRUB menu options (debug)
+  debug: var=grub_menu_options
+
 - name: Find the menu title for the grsecurity kernel in GRUB config.
   set_fact:
     grub_grsecurity_menu_entry: "{{ item }}"
@@ -27,9 +30,15 @@
 
 - name: Set custom GRUB submenu prefix text.
   set_fact:
-    # We've only seen the custom prefix required on AWS EC2 instances.
-    grub_submenu_prefix: Advanced options for {% if 'amazon' not in ansible_product_version %}Debian {% endif %}GNU/Linux>
-  when: ansible_distribution == "Debian"
+    # The custom prefix is required on AWS EC2 & GCE instances.
+    # Careful attention is paid to whitespace below.
+    grub_submenu_prefix: >-
+      Advanced options for
+      {%- if 'amazon' not in ansible_product_version %}
+      {{ ansible_distribution }}
+      {%- endif -%}
+      {%- if ansible_distribution == "Debian" -%}GNU/Linux{%- endif -%}>
+  when: ansible_os_family == "Debian"
 
 - name: Set grsecurity kernel as default option in GRUB config.
   become: yes
