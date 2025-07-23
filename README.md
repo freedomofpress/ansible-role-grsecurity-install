@@ -1,3 +1,5 @@
+# This repository is no longer maintained and has been archived.
+
 # ansible-role-grsecurity-install
 
 Installs Debian packages for [grsecurity]-patched Linux kernels.
